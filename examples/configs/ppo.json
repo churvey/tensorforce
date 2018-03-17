@@ -24,7 +24,7 @@
     "gae_lambda": null,
     "likelihood_ratio_clipping": 0.2,
 
-    "baseline_mode": "states",
+    "baseline_mode": "network",
     "baseline": {
         "type": "mlp",
         "sizes": [32, 32]
@@ -39,12 +39,19 @@
     },
 
     "saver": {
-        "directory": null,
+        "directory": "/tmp/snake/",
         "seconds": 600
     },
     "summarizer": {
-        "directory": null,
+        "directory": "/tmp/snake/",
         "labels": [],
         "seconds": 120
-    }
+    },
+    "states_preprocessing": [
+        {
+            "type": "sequence",
+            "length": 4,
+            "add_rank":true
+        }
+    ]
 }

@@ -43,5 +43,12 @@
         "directory": null,
         "labels": [],
         "seconds": 120
-    }
+    },
+    "states_preprocessing": [
+        {
+            "type": "sequence",
+            "length": 4,
+            "add_rank":true
+        }
+    ]
 }
