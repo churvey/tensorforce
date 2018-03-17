@@ -19,23 +19,22 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-from tensorforce import util
 from tensorforce.core.preprocessors import Preprocessor
 
 
-class Flatten(Preprocessor):
+class ExpandDims(Preprocessor):
     """
-    Normalize state. Subtract minimal value and divide by range.
+    Expands dimensions of input tensor.
     """
 
-    def __init__(self, shape, scope='flatten', summary_labels=()):
-        super(Flatten, self).__init__(shape=shape, scope=scope, summary_labels=summary_labels)
+    def __init__(self, shape, axis, scope='expand_dims', summary_labels=()):
+        self.axis = axis
+        super(ExpandDims, self).__init__(shape=shape, scope=scope, summary_labels=summary_labels)
 
     def processed_shape(self, shape):
-        if shape[0] == -1:
-            return -1, util.prod(shape[1:])
-        return util.prod(shape),
+        position = self.axis if self.axis >= 0 else len(shape) + self.axis + 1
+        return shape[:position] + (1,) + shape[position:]
 
     def tf_process(self, tensor):
-        # Flatten tensor
-        return tf.reshape(tensor=tensor, shape=self.processed_shape(util.shape(tensor)))
+        # Expand tensor.
+        return tf.expand_dims(input=tensor, axis=self.axis)
